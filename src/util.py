@@ -10,13 +10,13 @@ import pandas as pd
 import numpy as np
 
 
+DEBUG = os.getenv("DEBUG")
+
 logging.basicConfig(level=logging.DEBUG if DEBUG else logging.INFO,
-                    filename="oood.log",
+                    # filename="oood.log",  # uncomment to save logs to a file
                     format="%(asctime)s - %(levelname)s\t - %(message)s - [%(name)s..%(filename)s:%(lineno)d]",
                     datefmt="%Y-%m-%d %H:%M:%S")
 
-
-DEBUG = os.getenv("DEBUG")
 HF_TOKEN = os.getenv('HF_TOKEN')
 HF_CACHE = os.getenv('HF_HOME', '~/.cache/huggingface')
 

@@ -10,6 +10,12 @@ import pandas as pd
 import numpy as np
 
 
+logging.basicConfig(level=logging.DEBUG if DEBUG else logging.INFO,
+                    filename="oood.log",
+                    format="%(asctime)s - %(levelname)s\t - %(message)s - [%(name)s..%(filename)s:%(lineno)d]",
+                    datefmt="%Y-%m-%d %H:%M:%S")
+
+
 DEBUG = os.getenv("DEBUG")
 HF_TOKEN = os.getenv('HF_TOKEN')
 HF_CACHE = os.getenv('HF_HOME', '~/.cache/huggingface')
@@ -17,16 +23,12 @@ HF_CACHE = os.getenv('HF_HOME', '~/.cache/huggingface')
 o3d_data_dirpath = os.getenv("O3D_DATA_DIRPATH")
 if o3d_data_dirpath:
     DEFAULT_DATA_PATH = pathlib.Path(o3d_data_dirpath)
+    logging.info("Setting data path from env var O3D_DATA_DIRPATH: %s", DEFAULT_DATA_PATH)
 else:
     DEFAULT_DATA_PATH = pathlib.Path(__file__).parent.parent/"data"
+    logging.info("Setting data path relatively: %s", DEFAULT_DATA_PATH)
 
 AUG_SUFFIX_REGEX = r"-augmented-[a-z-]+"
-
-
-logging.basicConfig(level=logging.DEBUG if DEBUG else logging.INFO,
-                    filename="oood.log",
-                    format="%(asctime)s - %(levelname)s\t - %(message)s - [%(name)s..%(filename)s:%(lineno)d]",
-                    datefmt="%Y-%m-%d %H:%M:%S")
 
 
 class O3DArgumentParser(argparse.ArgumentParser):

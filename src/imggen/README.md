@@ -16,7 +16,7 @@ As part of the [main project](../../), this image generation pipeline:
 ## Quick Start
 
 ```bash
-git clone git@github.com:lyiqian/o3-d.git
+git clone https://github.com/lyiqian/o3-d.git
 cd o3-d/src/imggen
 
 sudo docker run --rm --interactive \

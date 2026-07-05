@@ -29,7 +29,7 @@ Setup steps
 1. Setup docker: https://docs.docker.com/get-started/
 2. Clone this repo
     ```bash
-    git clone git@github.com:lyiqian/o3-d.git
+    git clone https://github.com/lyiqian/o3-d.git
     cd o3-d/src/
     ```
 3. Install requirements

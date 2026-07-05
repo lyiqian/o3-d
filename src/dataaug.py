@@ -389,7 +389,9 @@ def _post_process(img_set: expt.BaseImageSet):
     if isinstance(img_set, expt._HuggingFaceImageSet):
         output_dir = util.DEFAULT_DATA_PATH/img_set.SUBDIR_NAME
         img_set_root = output_dir.parent.parent
-        img_set.info.to_json(img_set_root/expt.METADATA_FILENAME, lines=True)
+        out_json_path = img_set_root/expt.METADATA_FILENAME
+        img_set.info.to_json(out_json_path, orient="records", lines=True)
+        lgr.info("Saved metadata to %s", out_json_path)
 
 
 if __name__ == "__main__":

@@ -232,28 +232,28 @@ class _HuggingFaceImageSet(BaseImageSet):
 
 
 class HfKbNoCueImageSet(_HuggingFaceImageSet):
-    NAME = "hf-kb-0cue"
+    NAME = "hf-kb-0cue-aug"
     HF_SUBSET_NAME = "kb-0cue"
     SUBDIR_NAME = KubricNoCueAugmentedImageSet.SUBDIR_NAME
 
     IMAGE_LIKE_COLUMNS = ['image', 'depth_map', 'targ_seg', 'dist_seg']
 
 class HfKbOneCueImageSet(_HuggingFaceImageSet):
-    NAME = "hf-kb-1cue"
+    NAME = "hf-kb-1cue-aug"
     HF_SUBSET_NAME = "kb-1cue"
     SUBDIR_NAME = KubricOneCueAugmentedImageSet.SUBDIR_NAME
 
     IMAGE_LIKE_COLUMNS = ['image', 'depth_map', 'targ_seg', 'dist_seg']
 
 class HfKbTwoCueImageSet(_HuggingFaceImageSet):
-    NAME = "hf-kb-2cue"
+    NAME = "hf-kb-2cue-aug"
     HF_SUBSET_NAME = "kb-2cue"
     SUBDIR_NAME = KubricTwoCueAugmentedImageSet.SUBDIR_NAME
 
     IMAGE_LIKE_COLUMNS = ['image', 'depth_map', 'targ_seg', 'dist_seg']
 
 class HfKbNoLpImageSet(_HuggingFaceImageSet):
-    NAME = "hf-kb-no-lp"
+    NAME = "hf-kb-no-lp-aug"
     HF_SUBSET_NAME = "kb-no-lp"
     SUBDIR_NAME = KubricNoLpAugmentedImageSet.SUBDIR_NAME
 
@@ -409,13 +409,6 @@ class LegacyDepthOrderQuestionSet(_TemplateQuestionSet):
         else:
             raise ValueError(f"Unsupported ques for resp fmt: {ques}")
 
-
-class DepthOrderHigh35ClarityQuestionSet(LegacyDepthOrderQuestionSet):
-    NAME = "depth-order-highc"
-    CLARITY = Q_.CLARITY_HIGH
-
-    def _list_targ_refs(self):
-        return [HIGH_CLARITY_TARGET_REFERENCES[0]]  # middle object
 
 class DepthOrderHigh35ClarityLeftQuestionSet(LegacyDepthOrderQuestionSet):
     NAME = "depth-order-highc-l"

@@ -47,12 +47,13 @@ Two-cue
 
 
 ## Configuration via Command Line Arguments
-*Note: for object and environment configs, check `SELECTED_OBJECTS` and `SELECTED_ENVIRONMENTS` in `main.py`.*
+> [!NOTE]
+> for object and environment configs, check `SELECTED_OBJECTS` and `SELECTED_ENVIRONMENTS` in [`main.py`](main.py).
 
 Core command line arguments
 
 - `-p`, position of the odd object (aka target): `{none,far,near}`
-- `-c`, pictorial cues to add: `[{TG,OC,HP,LS,FO,RS,SA,FS} ...]`. See [Glossary](#glossary)
+- `-c`, pictorial cues to add: `[{TG,OC,HP,LS,FO,RS,SA,FS} ...]` (See [Glossary](#glossary))
 - `-L`, `--elim_lp`, remove LP cue
 
 - `-n`, number of distractors
@@ -75,7 +76,7 @@ Controlled pictorial cues
 - SA: Saturation
 - FO: Focusness
 
-## Bibtex
+## BibTeX
 ```bibtex
 @misc{liu2026disentanglingpictorialcueunderstanding,
       title={Disentangling Pictorial Cue Understanding from Language Bias in VLMs via Depth Ordering Task},

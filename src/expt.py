@@ -203,7 +203,8 @@ class _HuggingFaceImageSet(BaseImageSet):
             for col in self.IMAGE_LIKE_COLUMNS:
                 self.ds = self.ds.cast_column(col, datasets.Image(decode=False))
         else:
-            self.ds.set_format(type=self.image_format, columns=self.IMAGE_LIKE_COLUMNS)
+            self.ds.set_format(type=self.image_format, columns=self.IMAGE_LIKE_COLUMNS,
+                               output_all_columns=True)
 
     def list_image_names(self):
         return self.ds["image_name"]

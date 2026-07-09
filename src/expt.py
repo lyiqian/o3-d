@@ -601,7 +601,13 @@ class BaseDemoSampler(abc.ABC):
 class DemoSampler(BaseDemoSampler):
     def __init__(self, question_set, image_set):
         if not isinstance(question_set, _RandTemplateQuestionSet):
-            raise TypeError("DemoSampler only supports _RandTemplateQuestionSet")
+            valid_qsets = [
+                DepthOrderLowClarityRandQSet.NAME,
+                DepthOrderMedClarityRandQSet.NAME,
+                DepthOrderHighClarityRandQSet.NAME,
+                DepthOrderHighestClarityRandQSet.NAME,
+            ]
+            raise TypeError(f"DemoSampler only supports the following --question_set: {valid_qsets}")
 
         super().__init__(question_set, image_set)
 
@@ -840,9 +846,6 @@ def get_image_set(name: str, **kwargs) -> BaseImageSet:
 
 def get_demo_sampler(question_set, image_set) -> BaseDemoSampler:
     to_be_permissive = any((  # not enough images for `DemoSampler`
-        isinstance(image_set, O3DepthOrderImageSet),
-        isinstance(image_set, O3DepthRealImageSet),
-        isinstance(image_set, O3DepthCFRealImageSet),
         isinstance(image_set, HfReal012CueImageSet),
         isinstance(image_set, HfReal012CueCroppedAugmentedImageSet),
         isinstance(image_set, HfReal012CueCroppedMarkedImageSet),

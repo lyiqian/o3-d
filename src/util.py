@@ -89,6 +89,25 @@ def prepare_vlm_run(args):
     return timestamp, result_records
 
 
+def to_skip_image(args, image_fname, n_ques, result_records):
+    if not args.resume:
+        return False
+
+    matched_records = []
+    for r in result_records:
+        if r["image_name"] == image_fname:
+            matched_records.append(r)
+
+    if len(matched_records) == n_ques:  # all questions answered
+        return True
+
+    if len(matched_records) > 0:  # partially completed
+        for old_record in matched_records:
+            result_records.remove(old_record)
+
+    return False
+
+
 def _arg_to_dict(arg_str):
     parts = arg_str.split(",")
     return {p.split("=")[0]: p.split("=")[1] for p in parts}

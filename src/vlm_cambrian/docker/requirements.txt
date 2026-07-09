@@ -1,0 +1,7 @@
+opencv-python
+pandas
+matplotlib
+huggingface-hub==0.25.2
+
+datasets[vision]
+numpy<2

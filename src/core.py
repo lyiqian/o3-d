@@ -64,7 +64,7 @@ class BaseResponse:
 
 class IPromptFormatter(abc.ABC):
     @abc.abstractmethod
-    def format(self, ques: Question, bbox: bool=False) -> str:
+    def format(self, ques: Question) -> str:
         pass
 
 
@@ -91,23 +91,23 @@ class BaseVLM(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def _vqa(self, prompt, img_, bbox=False) -> BaseResponse:
+    def _vqa(self, prompt, img_) -> BaseResponse:
         pass
 
     @abc.abstractmethod
     def _vqa_icl(self, prompt, img_, demos) -> BaseResponse:
         pass
 
-    def prep_prompt(self, ques: Question, bbox: bool=False) -> str:
-        return self.formatter.format(ques, bbox)
+    def prep_prompt(self, ques: Question) -> str:
+        return self.formatter.format(ques)
 
     def prep_img(self, img: BaseImage):
         return self.image_preprocessor.preprocess(img)
 
-    def vqa(self, ques: Question, img: BaseImage, bbox=False) -> BaseResponse:
-        prompt = self.prep_prompt(ques, bbox=bbox)
+    def vqa(self, ques: Question, img: BaseImage) -> BaseResponse:
+        prompt = self.prep_prompt(ques)
         img_ = self.prep_img(img)
-        return self._vqa(prompt, img_, bbox)
+        return self._vqa(prompt, img_)
 
     def vqa_icl(self, ques: Question, img: BaseImage, demos: typing.List[IclDemo]) -> BaseResponse:
         question = self.prep_prompt(ques)
@@ -146,6 +146,10 @@ class BaseEvaluator(abc.ABC):
 @dataclasses.dataclass
 class _RegularImage(BaseImage):
     image_set_name: str  # (path.name, image_set_name) can be used as unique ID
+
+    @abc.abstractmethod
+    def to_pil(self):
+        pass
 
     @abc.abstractmethod
     def to_filesys_path(self, **kwargs):
@@ -191,6 +195,12 @@ class HuggingFaceImage(_RegularImage):
         self.img_col = img_col
         self._sample = None
 
+    def to_pil(self):
+        if self._sample is None:
+            self._set_sample()
+
+        return self._sample[self.img_col]
+
     def to_filesys_path(self, suffix=""):
         if self._sample is None:
             self._set_sample()
@@ -206,6 +216,9 @@ class HuggingFaceImage(_RegularImage):
         self._sample = util.df_dataset_get_sample(self.hf_dataset, self.path)
 
 class HuggingFaceBytesImage(HuggingFaceImage):
+
+    def to_pil(self):
+        raise NotImplementedError
 
     def to_filesys_path(self, suffix=""):
         tmp_path = f".tmp{suffix}.png"
@@ -223,7 +236,7 @@ class HuggingFaceBytesImage(HuggingFaceImage):
 
 
 class NoopFormatter(IPromptFormatter):
-    def format(self, ques: Question, bbox: bool=False) -> str:
+    def format(self, ques: Question) -> str:
         assert isinstance(ques, Question)
         return ques.text
 

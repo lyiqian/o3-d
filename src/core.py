@@ -333,27 +333,12 @@ class CloserFartherFilenameEvaluator(BaseEvaluator):
         return any(expected in actual_answer for expected in expected_answers)
 
 
-class CloserFartherOddPosEvaluator(BaseEvaluator):
-    def evaluate(self, result: TextResult, gt: DataframeRowGT):
-        actual_answer = result.text.lower()
-
-        gt_dict = gt.load()
-        odd_pos = gt_dict['odd_position']
-        if odd_pos == 'near':
-            expected_answers = ['closer']
-        elif odd_pos == 'far':
-            expected_answers = ['farther', 'further']
-        else:
-            return None  # for 'none'
-
-        return any(expected in actual_answer for expected in expected_answers)
-
-
 class CloserFartherO3dcfrEvaluator(BaseEvaluator):
     def evaluate(self, result: TextResult, gt: DataframeRowGT):
         actual_answer = result.text.lower()
 
         gt_dict = gt.load()
+        # CHECK: depends on qtags parsing
         gt_pos = self._get_gt_pos(gt_dict['qtags'], gt_dict['full_image_name'])
 
         if gt_pos == 'near':

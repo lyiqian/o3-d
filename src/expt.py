@@ -176,6 +176,62 @@ class KubricNoLpMarkedImageSet(_KubricDirectoryImageSet):
     SUBDIR_NAME = "kubric_scenes/no_lp/images/marked"
 
 
+class O3DepthRealImageSet(_DirectoryImageSet):
+    """HF subset: real-012cue"""
+    NAME = "o3d-real"
+    SUBDIR_NAME = "o3d_real/images/orig"
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.info = pd.read_json(self.DATA_PATH / "o3d_real" / "metadata.jsonl", lines=True)
+
+class O3DepthRealAugmentedImageSet(O3DepthRealImageSet):
+    """HF subset: real-012cue"""
+    NAME = "o3d-real-aug"
+    SUBDIR_NAME = "o3d_real/images/augmented"
+
+class O3DepthRealMarkedImageSet(O3DepthRealImageSet):
+    """HF subset: real-012cue"""
+    NAME = "o3d-real-mark"
+    SUBDIR_NAME = "o3d_real/images/marked"
+
+
+class O3DepthCFRealImageSet(_DirectoryImageSet):
+    """cropped for more data"""
+    NAME = "o3dcf-real"
+    SUBDIR_NAME = "o3dcf_real/images/orig"
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.info = pd.read_json(self.DATA_PATH / "o3dcf_real" / "metadata.jsonl", lines=True)
+
+class O3DepthCFRealAugmentedImageSet(O3DepthCFRealImageSet):
+    """cropped for more data; HF subset: real-012cue-cropped"""
+    NAME = "o3dcf-real-aug"
+    SUBDIR_NAME = "o3dcf_real/images/augmented"
+
+class O3DepthCFRealMarkedImageSet(O3DepthCFRealImageSet):
+    """cropped for more data; HF subset: real-012cue-cropped"""
+    NAME = "o3dcf-real-mark"
+    SUBDIR_NAME = "o3dcf_real/images/marked"
+
+
+class O3DepthOrderImageSet(_DirectoryImageSet):
+    """For hand-picked images specifically for depth ordering questions; HF subset: real-mcue"""
+    NAME = 'o3-dorder'
+    SUBDIR_NAME = "o3_dorder/images/orig"
+    INFO_FILEPATH = util.DEFAULT_DATA_PATH / "o3_dorder" / "metadata.jsonl"
+
+    def __init__(self, info_filepath=INFO_FILEPATH, **kwargs):
+        self.info = pd.read_json(info_filepath, lines=True)
+        super().__init__(**kwargs)
+
+class O3DepthOrderMarkedImageSet(O3DepthOrderImageSet):
+    """For hand-picked images specifically for depth ordering questions; HF subset: real-mcue"""
+    NAME = "o3-dorder-mark"
+    SUBDIR_NAME = "o3_dorder/images/marked"
+
+
 #### For HuggingFace datasets
 class _HuggingFaceImageSet(BaseImageSet):
     NAME = None  # to be implemented

@@ -12,7 +12,7 @@ We study depth perception of vision-language models (VLMs) to isolate the effect
     </em></figcaption>
 </figure>
 
-Outline:
+## Outline
 
 - [Results](#results)
 - [Methodology](#methodology)
@@ -25,8 +25,10 @@ question formats and pictorial cues.
 
 ### Performance summary
 <figure>
-    <img src="resources/d_l_scores.png" width="817px" alt="Performance summary">
+    <img src="resources/d_l_scores.png" width="700px" alt="Performance summary">
 </figure>
+
+Overall findings:
 
 - [Depth ordering accuracies](#accuracy-metric) of VLMs are close to random guess and inferior to DepthAnythingV2 baseline.
 - VLMs' [language consistency](#sdgm-metrics) has a wide spread.
@@ -37,8 +39,10 @@ question formats and pictorial cues.
 The figure below combines mean accuracies of VLMs (bottom-left), *vs.* baseline (top-right). <span style="color:darkred">Red</span>- and <span style="color:steelblue">blue</span>-tinted cells indicate performance
 <span style="color:darkred">above</span> and <span style="color:steelblue">below</span> chance level (0.5). The two main diagonal cells (within green dotted rectangle) show accuracies for 1-cue depth ordering, whereas the other cells report 2-cue interactions. Linear perspective (LP) cue requires special treatment, as detailed in [Supplementary Materials](https://arxiv.org/abs/2607.01503). (For cue abbreviations, see [Glossary](#glossary))
 <figure>
-    <img src="resources/cue_heatmaps.png" width="867px%" alt="Cue heatmaps">
+    <img src="resources/cue_heatmaps.png" width="700px" alt="Cue heatmaps">
 </figure>
+
+Pictorial depth cue-level findings:
 
 - The [depth ordering performance](#accuracy-metric) is better whenever height (HP) or size (RS) cue is present.
 - Occlusion (OC) is the most underutilized cue.
@@ -48,10 +52,9 @@ The figure below combines mean accuracies of VLMs (bottom-left), *vs.* baseline 
 Bars below show the standard deviation of mean accuracies ([SDGM](#sdgm-metrics)), as a measure of influence.
 <figure>
     <img src="resources/v_l_sensitivity.png" width="1000px" alt="V-L sensitivity">
-    <!-- <figcaption><em>
-    Fig. 5. Vision-language sensitivity, measured by modified SDGM.
-    </em></figcaption> -->
 </figure>
+
+Vision *vs.* language insights:
 
 - Across VLMs, [language influence](#sdgm-metrics) is uniformly larger than vision.
 - InternVL2.5 is the most vision-language balanced model.
@@ -59,23 +62,29 @@ Bars below show the standard deviation of mean accuracies ([SDGM](#sdgm-metrics)
 ## Methodology
 This section describes how we [prepare data](#data) and [evaluate VLMs](#evaluation).
 
-### Data Preparation
 > [!NOTE]
 > Data is publicly available at 🤗 [O3-D dataset](https://huggingface.co/datasets/liuyiqian/O3-D).
+
+
+### Data Preparation
 
 #### Pictorial depth cues
 We study 9 common pictorial depth cues: Occlusion (OC), Relative Size (RS), Aerial Perspective/Saturation (SA),
 Texture Gradient (TG), Linear Perspective (LP), Height-in-Plane (HP), Familiar Size (FS), Light-and-Shadow (LS), and Focusness (FO).
 
-<table cellpadding="8">
-  <tr>
-    <td align="center"><img src="resources/cue-none.jpg" width="160" vspace="4"/><br/><img src="resources/cue-no-lp.jpg" width="160" vspace="4"/></td>
-    <td align="center"><img src="resources/cue-oc.jpg" width="160" vspace="4"/><br/><img src="resources/cue-hp.png" width="160" vspace="4"/></td>
-    <td align="center"><img src="resources/cue-rs.jpg" width="160" vspace="4"/><br/><img src="resources/cue-fs.png" width="160" vspace="4"/></td>
-    <td align="center"><img src="resources/cue-sa.jpg" width="160" vspace="4"/><br/><img src="resources/cue-ls.jpg" width="160" vspace="4"/></td>
-    <td align="center"><img src="resources/cue-tg.jpg" width="160" vspace="4"/><br/><img src="resources/cue-fo.png" width="160" vspace="4"/></td>
-  </tr>
-</table>
+<p align="center">
+  <img src="resources/cue-none.jpg" width="18%"/>
+  <img src="resources/cue-oc.jpg" width="18%"/>
+  <img src="resources/cue-rs.jpg" width="18%"/>
+  <img src="resources/cue-sa.jpg" width="18%"/>
+  <img src="resources/cue-tg.jpg" width="18%"/>
+  <br/>
+  <img src="resources/cue-no-lp.jpg" width="18%"/>
+  <img src="resources/cue-hp.png" width="18%"/>
+  <img src="resources/cue-fs.png" width="18%"/>
+  <img src="resources/cue-ls.jpg" width="18%"/>
+  <img src="resources/cue-fo.png" width="18%"/>
+</p>
 
 
 #### Scene construction & cue control
@@ -110,7 +119,7 @@ Table below summarizes the prompt variations.
 We measure depth ordering performance with *classification accuracy*.
 
 #### SDGM metrics
-In addition, we introduce the *standard deviation of within-group means (SDGM)* metric to measure VLMs’ sensitivities to cue and language variations in the depth ordering task:
+In addition, we introduce the *Standard Deviation of within-Group Means (SDGM)* metric to measure VLMs’ sensitivities to cue and language variations in the depth ordering task:
 
 $$\sigma_{\Omega}(\mu) =  \sqrt{\frac{1}{||\Omega||} \sum_{g \in \Omega}(\mu_g - \bar{\mu})^2}$$
 
@@ -131,14 +140,14 @@ the others. Based on the height-in-plane pictorial cues, it is likely that
 the object is closer than the other objects.) B.
 
 ## Code
-This repo contains accompanying code for the paper *Disentangling Pictorial Cue Understanding from Language Bias in VLMs via Depth Ordering Task*. The code is mainly structured as following:
+This repo contains accompanying code for the paper *Disentangling Pictorial Cue Understanding from Language Bias in VLMs via Depth Ordering Task*. The code is mainly structured as follows:
 
 - Data generation
     - Image generation pipeline, [`imggen`](src/imggen/)
     - Image augmentation
     - Prompt sampling
 - VLM experiments
-<!-- - VLM evaluation -->
+- VLM evaluation
 
 ### Getting Started
 Dependencies
@@ -206,7 +215,7 @@ questions = question_set.list_questions()
 Experiment code is grouped by model family under `src/vlm_*/`. Additional GPU setup may be required to run VLM experiments. We list general setup steps here. For detailed instructions, see the [QwenVL Docker Getting Started Guide (generated)](/src/vlm_qwenvl/docker/GETTING_STARTED.md).
 
 1. Complete the [main Getting Started](#getting-started).
-2. Install NVIDIA driver
+2. Install NVIDIA driver (We used `535.183.01` & CUDA `12.2`)
 3. Build Docker image
     ```bash
     cd o3-d/src/vlm_qwenvl/docker
@@ -275,6 +284,11 @@ python3 main.py --model_name Qwen2-VL-7B-Instruct-GPTQ-Int4 \
 | hf-real-012cue-cropped-aug | [🤗HF](https://huggingface.co/datasets/liuyiqian/O3-D) | `hf-visual-questions`; `depth-order-highc-lr` |
 | hf-real-012cue-cropped-mark | [🤗HF](https://huggingface.co/datasets/liuyiqian/O3-D)  | `hf-visual-questions`; `depth-order-highestc-rand` |
 
+- **`image_set` in our API is a different from *subset* on HF; one HF subset may contain multiple `image_set`s**
+- `hf-` = available on huggingface; `-aug` = augmented images; `-mark` = marked images
+- `↑` = same as above
+- see [🤗Dataset Card](https://huggingface.co/datasets/liuyiqian/O3-D) for more details.
+
 > [!NOTE]
 > ICL / CoT (`--icl --cot`) is only supported with newly sampled questions (i.e., `depth-order-*c-rand` question sets).
 
@@ -283,27 +297,8 @@ python3 main.py --model_name Qwen2-VL-7B-Instruct-GPTQ-Int4 \
 
 
 
-<!--
-### Proposed Evaluation Metrics (SDGM)
-To quantitatively compare a VLM's sensitivity to visual depth cues and language prompts, we propose two variation-based metrics: Standard Deviation of within-Group Means (**SDGM**) and **modified SDGM**. For detailed explanations, see the [paper](https://arxiv.org/abs/2607.01503).
-
-```python
-# SDGM
-(data
-    .groupby(["query"]) # G in SDGM
-    .depth_ordering_accuracy.mean() # M
-    .std() # SD
-)
-# modified SDGM
-(data
-    .groupby(["clarity", "depth", "formality", "option", "query"])
-    .depth_ordering_accuracy.mean()
-    .groupby(["clarity", "depth", "formality", "option"])
-    .std()
-    .mean()
-)
-```
--->
+### Evaluation
+See [Analysis Notebook](analysis.ipynb).
 
 ## Glossary
 Controlled pictorial cues

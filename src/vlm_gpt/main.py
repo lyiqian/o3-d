@@ -68,9 +68,7 @@ class GptBase64ImagePreprocessor(core.IImagePreprocessor):
 
 
 class GptPromptFormatter(core.IPromptFormatter):
-    def format(self, ques: core.Question, bbox: bool=False) -> str:
-        if bbox:  # unused
-            pass
+    def format(self, ques: core.Question) -> str:
         return ques.text
 
 
@@ -81,7 +79,7 @@ class GptVLM(core.BaseVLM):
     def init_model(self):
         self.client = openai.OpenAI()
 
-    def _vqa(self, prompt, img_: str, bbox=False) -> core.BaseResponse:
+    def _vqa(self, prompt, img_: str) -> core.BaseResponse:
         lgr.debug(prompt)
         file_id = img_  # output of GptImagePreprocessor.preprocess
 
@@ -216,7 +214,7 @@ def main():
             kwargs = expt.prep_question_kwargs(question_set, image_set, image_fname)
             questions = question_set.list_questions(**kwargs)  # might have rand MCQs
 
-            if _to_skip_image(args, image_fname, len(questions), result_records):
+            if util.to_skip_image(args, image_fname, len(questions), result_records):
                 continue
 
             image = image_set.get_image(image_fname)
@@ -258,24 +256,6 @@ def _get_text_extractor(args):
         return OpenaiChatExtractor()
     else:
         return OpenaiTextExtractor()
-
-def _to_skip_image(args, image_fname, n_ques, result_records):
-    if not args.resume:
-        return False
-
-    matched_records = []
-    for r in result_records:
-        if r["image_name"] == image_fname:
-            matched_records.append(r)
-
-    if len(matched_records) == n_ques:  # all questions answered
-        return True
-
-    if len(matched_records) > 0:  # partially completed
-        for old_record in matched_records:
-            result_records.remove(old_record)
-
-    return False
 
 
 if __name__ == '__main__':

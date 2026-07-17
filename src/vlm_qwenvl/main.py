@@ -18,17 +18,7 @@ QwImagePreprocessor = core.NoopImagePreprocessor
 
 
 class QwPromptFormatter(core.IPromptFormatter):
-    def format(self, ques: core.Question, bbox: bool=False) -> str:
-        if bbox:  # unused
-            return (
-                f"Detect {ques.text} in the image and "
-                "return its location in the form of coordinates. "
-                'The format of output should be valid JSON like '
-                '[{"bbox_2d": [x1, y1, x2, y2], "label": "<detected_obj_class>"}]. '
-                "Coordinates should be normalized to [0, 1] range. "
-                "Return three objects at most if you found multiple objects."
-                    # as `max_new_tokens` does not seem to be working
-                )
+    def format(self, ques: core.Question) -> str:
         return ques.text
 
 
@@ -52,7 +42,7 @@ class QwenVLM(core.BaseVLM):
             f'Qwen/{self.model_name}',
             min_pixels=self.MIN_PIXELS, max_pixels=self.MAX_PIXELS)
 
-    def _vqa(self, prompt, img_, bbox=False) -> core.BaseResponse:
+    def _vqa(self, prompt, img_) -> core.BaseResponse:
         lgr.debug(prompt)
         conversations = self._format_conversations(prompt, img_)
         response = self._generate(conversations)
@@ -154,7 +144,7 @@ def main():
             kwargs = expt.prep_question_kwargs(question_set, image_set, image_fname)
             questions = question_set.list_questions(**kwargs)
 
-            if _to_skip_image(args, image_fname, len(questions), result_records):
+            if util.to_skip_image(args, image_fname, len(questions), result_records):
                 continue
 
             image = image_set.get_image(image_fname)
@@ -183,25 +173,6 @@ def main():
         util.save_results(args, result_records, ts_str=timestamp)
 
     lgr.info("Finished %d batches of images with %s", n, args.model_name)
-
-
-def _to_skip_image(args, image_fname, n_ques, result_records):
-    if not args.resume:
-        return False
-
-    matched_records = []
-    for r in result_records:
-        if r["image_name"] == image_fname:
-            matched_records.append(r)
-
-    if len(matched_records) == n_ques:  # all questions answered
-        return True
-
-    if len(matched_records) > 0:  # partially completed
-        for old_record in matched_records:
-            result_records.remove(old_record)
-
-    return False
 
 
 if __name__ == "__main__":

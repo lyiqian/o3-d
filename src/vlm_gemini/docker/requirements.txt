@@ -1,0 +1,7 @@
+google-genai
+pillow
+tqdm
+matplotlib
+pandas
+opencv-python
+datasets[vision]

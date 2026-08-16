@@ -124,7 +124,7 @@ In addition, we introduce the *Standard Deviation of within-Group Means (SDGM)* 
 $$\sigma_{\Omega}(\mu) =  \sqrt{\frac{1}{||\Omega||} \sum_{g \in \Omega}(\mu_g - \bar{\mu})^2}$$
 
 where $\Omega$ defines a set of groups, and $\mu_g$ denotes a mean performance metric within each group $g$.
-If, for example, $\Omega$ is the *2) target referring clarity* in the [prompt variation table](#visual-question-prompts), there will be 4 groups, and 4 within-group means $\{\mu_{g_i}\}^4_{i=1}$. Then we can obtain SDGM by computing the standard deviation of the means. For a modified version of SDGM and other details, see [Supplementary Materials](https://arxiv.org/abs/2607.01503).
+If, for example, $\Omega$ is the *2) target referring clarity* in the [prompt variation table](#visual-question-prompts), there will be 4 groups, and 4 within-group means $`\{\mu_{g_i}\}^4_{i=1}`$. Then we can obtain SDGM by computing the standard deviation of the means. For a modified version of SDGM and other details, see [Supplementary Materials](https://arxiv.org/abs/2607.01503).
 
 #### In-context learning (ICL) & chain-of-thoughts (CoT)
 For 5 of 12 VLMs, we provide additional few-shot ICL & CoT prompting. As image similarity and order matters, we retrieve two (target-far and target-near) demonstrations with the same
@@ -203,7 +203,7 @@ import expt
 # depth-order-highc-rand
 # depth-order-highestc-rand
 
-qset_name = 'depth-order-highestc-rand'
+qset_name = "depth-order-highestc-rand"
 question_set = expt.get_question_set(qset_name)
 questions = question_set.list_questions()
 

@@ -44,7 +44,7 @@ The figure below combines mean accuracies of VLMs (bottom-left), *vs.* baseline 
 
 Pictorial depth cue-level findings:
 
-- The [depth ordering performance](#accuracy-metric) is better whenever height (HP) or size (RS) cue is present.
+- The [depth ordering performance](#accuracy-metric) improves whenever height (HP) or size (RS) cue is present.
 - Occlusion (OC) is the most underutilized cue.
 
 

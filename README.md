@@ -6,7 +6,7 @@ We study depth perception of vision-language models (VLMs) to isolate the effect
 
 
 <figure>
-    <img src="resources/o3d_overview.png" alt="O3-D Overview">
+    <img src="resources/o3d_overview_.svg" alt="O3-D Overview">
     <figcaption><em>
     O3-D probes VLM depth and language understanding. Each <code>3D scene</code> contains 5 objects of the same class, one of which (the target) is of different size and placed at a different depth plane conformed to scale ambiguity. We then generate a number of <code>2D views</code> with one or two depth cues by controlling the camera, light position, etc. For each image, we pair it with one of the depth-ordering <code>prompt</code> templates, within which we vary the <code>target</code> and <code>distractor</code> referring expressions.
     </em></figcaption>

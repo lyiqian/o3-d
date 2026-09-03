@@ -8,7 +8,7 @@ We study depth perception of vision-language models (VLMs) to isolate the effect
 <figure>
     <img src="resources/o3d_overview.png" alt="O3-D Overview">
     <figcaption><em>
-    O3-D probes VLM depth and language understanding. Each <code>3D scene</code> contains 5 objects of the same class, one of which (the target) is of different size and placed at a different depth plane conformed to scale ambiguity. We then generate a number of <code>2D views</code> with one or two depth cues by controlling the camera, light position, etc. For each image, we pair it with one of the depth-ordering <code>prompt</code> templates, within which we vary the <code>target</code> and <code>distractor</code> referring expressions.
+    O3-D probes VLM depth and language understanding. Each <code>3D scene</code> contains 5 objects of the same class, one of which (the target) is of different size and placed at a different depth plane conformed to scale ambiguity. We then generate a number of <code>2D views</code> with one or two depth cues by controlling the camera, light position, etc. For each image, we pair it with one of the depth-ordering <code>question templates</code>, within which we vary the <code>target</code> and <code>distractor</code> referring expressions.
     </em></figcaption>
 </figure>
 
@@ -36,15 +36,15 @@ Overall findings:
 - [Referring clarity](#visual-question-prompts) slightly improves depth ordering.
 
 ### Combined heatmap of 1-cue & 2-cue performance
-The figure below combines mean accuracies of VLMs (bottom-left), *vs.* baseline (top-right). <span style="color:darkred">Red</span>- and <span style="color:steelblue">blue</span>-tinted cells indicate performance
+The heatmap figure below combines mean accuracies of VLMs (bottom-left), *vs.* baseline (top-right). <span style="color:darkred">Red</span>- and <span style="color:steelblue">blue</span>-tinted cells indicate performance
 <span style="color:darkred">above</span> and <span style="color:steelblue">below</span> chance level (0.5). The two main diagonal cells (within green dotted rectangle) show accuracies for 1-cue depth ordering, whereas the other cells report 2-cue interactions. Linear perspective (LP) cue requires special treatment, as detailed in [Supplementary Materials](https://arxiv.org/abs/2607.01503). (For cue abbreviations, see [Glossary](#glossary))
 <figure>
-    <img src="resources/cue_heatmaps.png" width="700px" alt="Cue heatmaps">
+    <img src="resources/cue_heatmaps_annot.png" width="1000px" alt="Cue heatmaps">
 </figure>
 
 Pictorial depth cue-level findings:
 
-- The [depth ordering performance](#accuracy-metric) improves whenever height (HP) or size (RS) cue is present.
+- The [depth ordering performance](#accuracy-metric) improves when height (HP) or size (RS) cue is present.
 - Occlusion (OC) is the most underutilized cue.
 
 
@@ -57,7 +57,7 @@ Bars below show the standard deviation of mean accuracies ([SDGM](#sdgm-metrics)
 Vision *vs.* language insights:
 
 - Across VLMs, [language influence](#sdgm-metrics) is uniformly larger than vision.
-- InternVL2.5 is the most vision-language balanced model.
+- InternVL2.5 is the most vision-language balanced model, in terms of absolute difference of [SDGM](#sdgm-metrics).
 
 ## Methodology
 This section describes how we [prepare data](#data) and [evaluate VLMs](#evaluation).
